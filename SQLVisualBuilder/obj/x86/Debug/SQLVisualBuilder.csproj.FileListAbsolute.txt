@@ -1,0 +1,6 @@
+C:\Users\Geoff\Desktop\ADBMS Project\SQLVisualBuilder\bin\Debug\SQLVisualBuilder.exe
+C:\Users\Geoff\Desktop\ADBMS Project\SQLVisualBuilder\bin\Debug\SQLVisualBuilder.pdb
+C:\Users\Geoff\Desktop\ADBMS Project\SQLVisualBuilder\obj\x86\Debug\SQLVisualBuilder.Properties.Resources.resources
+C:\Users\Geoff\Desktop\ADBMS Project\SQLVisualBuilder\obj\x86\Debug\SQLVisualBuilder.csproj.GenerateResource.Cache
+C:\Users\Geoff\Desktop\ADBMS Project\SQLVisualBuilder\obj\x86\Debug\SQLVisualBuilder.exe
+C:\Users\Geoff\Desktop\ADBMS Project\SQLVisualBuilder\obj\x86\Debug\SQLVisualBuilder.pdb

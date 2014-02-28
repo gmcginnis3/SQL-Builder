@@ -1,7 +1,0 @@
-C:\Users\Geoff\Desktop\ADBMS Project\QueryBuilder\bin\Debug\TestQueryBuilder.exe
-C:\Users\Geoff\Desktop\ADBMS Project\QueryBuilder\bin\Debug\TestQueryBuilder.pdb
-C:\Users\Geoff\Desktop\ADBMS Project\QueryBuilder\obj\x86\Debug\TestQueryBuilder.Form1.resources
-C:\Users\Geoff\Desktop\ADBMS Project\QueryBuilder\obj\x86\Debug\TestQueryBuilder.Properties.Resources.resources
-C:\Users\Geoff\Desktop\ADBMS Project\QueryBuilder\obj\x86\Debug\QueryBuilder.csproj.GenerateResource.Cache
-C:\Users\Geoff\Desktop\ADBMS Project\QueryBuilder\obj\x86\Debug\TestQueryBuilder.exe
-C:\Users\Geoff\Desktop\ADBMS Project\QueryBuilder\obj\x86\Debug\TestQueryBuilder.pdb
