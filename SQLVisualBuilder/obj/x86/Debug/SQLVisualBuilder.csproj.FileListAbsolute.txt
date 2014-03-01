@@ -4,3 +4,8 @@ C:\Users\Geoff\Desktop\ADBMS Project\SQLVisualBuilder\obj\x86\Debug\SQLVisualBui
 C:\Users\Geoff\Desktop\ADBMS Project\SQLVisualBuilder\obj\x86\Debug\SQLVisualBuilder.csproj.GenerateResource.Cache
 C:\Users\Geoff\Desktop\ADBMS Project\SQLVisualBuilder\obj\x86\Debug\SQLVisualBuilder.exe
 C:\Users\Geoff\Desktop\ADBMS Project\SQLVisualBuilder\obj\x86\Debug\SQLVisualBuilder.pdb
+C:\Users\Geoff\Desktop\ADBMS Project\SQLVisualBuilder\bin\Debug\System.Data.SQLite.dll
+C:\Users\Geoff\Desktop\ADBMS Project\SQLVisualBuilder\bin\Debug\System.Data.SQLite.xml
+C:\Users\Geoff\Desktop\ADBMS Project\SQLVisualBuilder\bin\Debug\SQLVisualBuilder.exe.config
+C:\Users\Geoff\Desktop\ADBMS Project\SQLVisualBuilder\obj\x86\Debug\SQLVisualBuilder.Form1.resources
+C:\Users\Geoff\Desktop\ADBMS Project\SQLVisualBuilder\obj\x86\Debug\SQLVisualBuilder.csprojResolveAssemblyReference.cache
