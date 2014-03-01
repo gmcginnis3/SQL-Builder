@@ -29,7 +29,7 @@ namespace SQLVisualBuilder
 
         private void splitContainer1_Panel2_Paint(object sender, PaintEventArgs e)
         {
-            
+
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -48,17 +48,21 @@ namespace SQLVisualBuilder
             if (!page.HasChildren)
                 return;
             DataGridView dgv = page.Controls.Find("dataGrid", true)[0] as DataGridView;
-            DataGridViewSelectedColumnCollection selected = dgv.SelectedColumns;
-            textBox1.Text = selected.Count.ToString();
+            DataGridViewSelectedCellCollection selected = dgv.SelectedCells;
 
             QueryBuilder builder = new QueryBuilder();
             builder.QueryType = QueryTypes.Select;
             builder.AddTable(page.Text);
             if (selected.Count > 0)
             {
-                foreach (DataGridViewColumn col in selected)
+                HashSet<string> columns = new HashSet<string>();
+                foreach (DataGridViewCell cell in selected)
                 {
-                    builder.AddColumn(col.HeaderText);
+                    columns.Add(cell.OwningColumn.HeaderText);
+                }
+                foreach (string col in columns)
+                {
+                    builder.AddColumn(col);
                 }
             }
             else
@@ -66,18 +70,18 @@ namespace SQLVisualBuilder
                 builder.AddColumn("*");
             }
 
-            textBox1.Text += builder.ToString();
+            textBox1.Text = builder.ToString();
         }
 
         public void setData(ArrayList items)
         {
-            //tabControl1.Parent = splitContainer1.Panel2;
             foreach (string table in items)
             {
                 TabPage tp = new TabPage(table);
                 tabControl1.TabPages.Add(tp);
                 DataGridView dgv = new DataGridView();
                 dgv.Name = "dataGrid";
+                dgv.ReadOnly = true;
                 dgv.Anchor = (AnchorStyles.Bottom | AnchorStyles.Top | AnchorStyles.Right | AnchorStyles.Left); ;
                 dgv.Dock = DockStyle.Fill;
                 dgv.AutoGenerateColumns = true;
@@ -85,13 +89,10 @@ namespace SQLVisualBuilder
                 dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
                 dgv.DataSource = Program.Query("SELECT * FROM " + table);
                 dgv.Parent = tp;
-                /*foreach (DataGridViewColumn column in dgv.Columns)
-                {
-                    column.SortMode = DataGridViewColumnSortMode.Programmatic;
-                }
-                dgv.SelectionMode = DataGridViewSelectionMode.ColumnHeaderSelect;*/
+                dgv.SelectionMode = DataGridViewSelectionMode.CellSelect;
+                dgv.ClearSelection();
             }
-        }
 
+        }
     }
 }
