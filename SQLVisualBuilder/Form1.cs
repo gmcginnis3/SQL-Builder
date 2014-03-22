@@ -60,9 +60,17 @@ namespace SQLVisualBuilder
                 {
                     columns.Add(cell.OwningColumn.HeaderText);
                 }
-                foreach (string col in columns)
+                if (columns.Count == dgv.ColumnCount)
                 {
-                    builder.AddColumn(col);
+                    builder.AddColumn("*");
+                }
+                else
+                {
+
+                    foreach (string col in columns)
+                    {
+                        builder.AddColumn(col);
+                    }
                 }
             }
             else
@@ -89,7 +97,7 @@ namespace SQLVisualBuilder
                 dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
                 dgv.DataSource = Program.Query("SELECT * FROM " + table);
                 dgv.Parent = tp;
-                dgv.SelectionMode = DataGridViewSelectionMode.CellSelect;
+                dgv.SelectionMode = DataGridViewSelectionMode.RowHeaderSelect;
                 dgv.ClearSelection();
             }
 

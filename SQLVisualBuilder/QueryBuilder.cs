@@ -172,8 +172,8 @@ namespace SQLVisualBuilder
                 else
                     builder.Append(", ");
                 if (!String.IsNullOrEmpty(Table))
-                    builder.AppendFormat("[{0}].", Table);
-                builder.AppendFormat("[{0}]", Name);
+                    builder.AppendFormat("{0}.", Table);
+                builder.AppendFormat("{0}", Name);
                 if (Direction == SortOrder.Descending)
                     builder.Append(" DESC");
                 return builder.ToString();
@@ -468,7 +468,7 @@ namespace SQLVisualBuilder
             {
                 if (builder.Length > 0)
                     builder.Append(", ");
-                builder.AppendFormat("[{0}]", pair.Key);
+                builder.AppendFormat("{0}", pair.Key);
             }
             return builder.ToString();
         }
@@ -502,7 +502,7 @@ namespace SQLVisualBuilder
             {
                 if (builder.Length > 0)
                     builder.Append(", ");
-                builder.AppendFormat("[{0}] = {1}", pair.Key, pair.Value);
+                builder.AppendFormat("{0} = {1}", pair.Key, pair.Value);
             }
             return builder.ToString();
         }
