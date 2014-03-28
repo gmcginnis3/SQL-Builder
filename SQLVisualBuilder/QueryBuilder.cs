@@ -62,10 +62,10 @@ namespace SQLVisualBuilder
             {
                 StringBuilder builder = new StringBuilder();
                 if (TableName != null)
-                    builder.AppendFormat("[{0}].", TableName);
-                builder.AppendFormat("[{0}]", Name);
+                    builder.AppendFormat("{0}.", TableName);
+                builder.AppendFormat("{0}", Name);
                 if (Alias != null)
-                    builder.AppendFormat(" AS [{0}]", Alias);
+                    builder.AppendFormat(" AS {0}", Alias);
                 return builder.ToString();
             }
         }
@@ -90,7 +90,7 @@ namespace SQLVisualBuilder
             {
                 // First table has no join
                 if (isFirstTable)
-                    return String.Format("[{0}]", Name);
+                    return String.Format("{0}", Name);
 
                 // Table with join
                 StringBuilder builder = new StringBuilder();
@@ -109,7 +109,7 @@ namespace SQLVisualBuilder
                         builder.Append(" FULL OUTER JOIN");
                         break;
                 }
-                builder.AppendFormat(" [{0}] ON [{1}].[{2}] = [{0}].[{3}]",
+                builder.AppendFormat(" {0} ON {1}.[{2}] = {0}.{3}",
                     Name, LeftTable, LeftColumn, RightColumn);
                 return builder.ToString();
             }

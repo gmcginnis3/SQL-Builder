@@ -78,6 +78,25 @@ namespace SQLVisualBuilder
                 builder.AddColumn("*");
             }
 
+            DataSet_Apriori apriori = new DataSet_Apriori();
+            List<HashSet<string>> where = apriori.getAssocValues(selected);
+
+            foreach (HashSet<string> s in where)
+            {
+                if (s.Count == 1)
+                {
+                    builder.AddCondition(s.ElementAt(0).Replace("//", " = "));
+                }
+                else
+                {
+                    foreach (string x in s)
+                    {
+                        textBox1.Text += "\n\n";
+                        textBox1.Text += x;
+                    }
+                }
+            }
+
             textBox1.Text = builder.ToString();
         }
 
