@@ -49,6 +49,7 @@ namespace SQLVisualBuilder
                 return;
             DataGridView dgv = page.Controls.Find("dataGrid", true)[0] as DataGridView;
             DataGridViewSelectedCellCollection selected = dgv.SelectedCells;
+            HashSet<string> rows = new HashSet<string>();
 
             QueryBuilder builder = new QueryBuilder();
             builder.QueryType = QueryTypes.Select;
@@ -59,6 +60,7 @@ namespace SQLVisualBuilder
                 foreach (DataGridViewCell cell in selected)
                 {
                     columns.Add(cell.OwningColumn.HeaderText);
+                    rows.Add(cell.OwningRow.Index.ToString());
                 }
                 if (columns.Count == dgv.ColumnCount)
                 {
@@ -66,7 +68,6 @@ namespace SQLVisualBuilder
                 }
                 else
                 {
-
                     foreach (string col in columns)
                     {
                         builder.AddColumn(col);
@@ -78,21 +79,21 @@ namespace SQLVisualBuilder
                 builder.AddColumn("*");
             }
 
-            DataSet_Apriori apriori = new DataSet_Apriori();
-            List<HashSet<string>> where = apriori.getAssocValues(selected);
-
-            foreach (HashSet<string> s in where)
+            if (rows.Count != dgv.RowCount || rows.Count == dgv.RowCount - 1)
             {
-                if (s.Count == 1)
+                DataSet_Apriori apriori = new DataSet_Apriori();
+                List<HashSet<string>> where = apriori.getAssocValues(selected);
+
+                foreach (HashSet<string> s in where)
                 {
-                    builder.AddCondition(s.ElementAt(0).Replace("//", " = "));
-                }
-                else
-                {
-                    foreach (string x in s)
+                    if (s.Count == 1)
                     {
-                        textBox1.Text += "\n\n";
-                        textBox1.Text += x;
+                        builder.AddCondition(s.ElementAt(0).Replace("//", " = "));
+                    }
+                    else
+                    {
+                        builder.AddCondition(s.ElementAt(0).Replace("//", " > "));
+                        builder.AddCondition(s.ElementAt(1).Replace("//", " < "));
                     }
                 }
             }
