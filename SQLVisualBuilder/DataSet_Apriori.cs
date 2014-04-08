@@ -80,23 +80,35 @@ namespace SQLVisualBuilder
                 }
                 finally
                 {
-                    HashSet<int> range = getAssocRange(new List<int>(values), values.Length);
-                    if (range != null)
+                    List<HashSet<int>> range = getAssocRange(new List<int>(values), values.Length);
+                    if (range != null && range.Count > 1)
+                    {
+                        foreach (HashSet<int> set in range)
+                        {
+                            HashSet<string> temp = new HashSet<string>();
+                            foreach (int x in set)
+                            {
+                                temp.Add(col + "||" + x.ToString());
+                            }
+                            candidates.Add(temp);
+                        }
+                    }
+                    else if (range != null && range.Count == 1)
                     {
                         HashSet<string> temp = new HashSet<string>();
-                        foreach (int x in range)
+                        foreach (int x in range.Last())
                         {
                             temp.Add(col + "//" + x.ToString());
                         }
                         candidates.Add(temp);
-                    }       
+                    }
                 }
             }
 
             return candidates;
         }
 
-        public HashSet<int> getAssocRange(List<int> values, int totalCount)
+        public List<HashSet<int>> getAssocRange(List<int> values, int totalCount)
         {
             int binCount = 5;
             int max = values.Max();
@@ -107,12 +119,11 @@ namespace SQLVisualBuilder
                 bins[i] = new List<int>();
 
             int binSize = (max - min) / binCount;
+            if (binSize == 0)
+                return null;
             int index = 0;
             foreach (int val in values)
             {
-                if (binSize == 0)
-                    return null;
-
                 index = (val - min) / binSize;
                 if (index >= binCount)
                     index = binCount - 1;
@@ -120,19 +131,23 @@ namespace SQLVisualBuilder
                 bins[index].Add(val);
             }
 
-            for (int i = 0; i < binCount; i++)
+            List<HashSet<int>> result = new List<HashSet<int>>(); ;
+            for (int j = 0; j < binCount; j++)
             {
-                if (bins[i].Count == totalCount)
+                if (bins[j].Count != 0)
                 {
-                    HashSet<int> result = getAssocRange(bins[i], totalCount);
-                    return result;
+                    result.Add(new HashSet<int>());
+                    result.Last().Add(min + j * binSize);
+
+                    for (int k = j + 1; k < binCount && bins[k].Count > 0; k++)
+                    {
+                        j++;
+                    }
+
+                    result.Last().Add(min + (j + 1) * binSize);
                 }
             }
-
-            HashSet<int> minMax = new HashSet<int>();
-            minMax.Add(min);
-            minMax.Add(max);
-            return minMax;
+            return result;
         }
     }
 }

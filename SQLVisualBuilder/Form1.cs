@@ -83,6 +83,7 @@ namespace SQLVisualBuilder
             {
                 DataSet_Apriori apriori = new DataSet_Apriori();
                 List<HashSet<string>> where = apriori.getAssocValues(selected);
+                string rangeCondition = "";
 
                 foreach (HashSet<string> s in where)
                 {
@@ -92,9 +93,22 @@ namespace SQLVisualBuilder
                     }
                     else
                     {
-                        builder.AddCondition(s.ElementAt(0).Replace("//", " > "));
-                        builder.AddCondition(s.ElementAt(1).Replace("//", " < "));
+                        if (s.ElementAt(0).Contains("//"))
+                        {
+                            builder.AddCondition(s.ElementAt(0).Replace("//", " >= "));
+                            builder.AddCondition(s.ElementAt(1).Replace("//", " < "));
+                        }
+                        else
+                        {
+                            rangeCondition += "(" + s.ElementAt(0).Replace("||", " >= ") + " AND " + s.ElementAt(1).Replace("||", " < ") + ") OR ";
+                        }
                     }
+                }
+                if (rangeCondition.Length > 0)
+                {
+                    if (rangeCondition.EndsWith("OR "))
+                        rangeCondition = rangeCondition.Substring(0, rangeCondition.Length - 4);
+                    builder.AddCondition(rangeCondition);
                 }
             }
 
