@@ -26,6 +26,7 @@ namespace SQLVisualBuilder
 
     public enum JoinTypes
     {
+        Join,
         InnerJoin,
         LeftJoin,
         RightJoin,
@@ -96,6 +97,9 @@ namespace SQLVisualBuilder
                 StringBuilder builder = new StringBuilder();
                 switch (JoinType)
                 {
+                    case JoinTypes.Join:
+                        builder.Append(" JOIN");
+                        break; 
                     case JoinTypes.InnerJoin:
                         builder.Append(" INNER JOIN");
                         break;
@@ -109,7 +113,7 @@ namespace SQLVisualBuilder
                         builder.Append(" FULL OUTER JOIN");
                         break;
                 }
-                builder.AppendFormat(" {0} ON {1}.[{2}] = {0}.{3}",
+                builder.AppendFormat(" {0} ON {1}.{2} = {0}.{3}",
                     Name, LeftTable, LeftColumn, RightColumn);
                 return builder.ToString();
             }

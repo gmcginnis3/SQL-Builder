@@ -11,7 +11,7 @@ namespace SQLVisualBuilder
 {
     public class DataSet_Apriori{
 
-        public List<HashSet<string>> getAssocValues(DataGridViewSelectedCellCollection cells)
+        public List<HashSet<string>> getAssocValues(DataGridViewSelectedCellCollection cells, string tableName)
         {
             Dictionary<string, Dictionary<string, int>> items = new Dictionary<string, Dictionary<string, int>>();
             HashSet<int> rows = new HashSet<int>();
@@ -21,21 +21,21 @@ namespace SQLVisualBuilder
              */
             foreach (DataGridViewCell cell in cells)
             {
-                if (items.ContainsKey(cell.OwningColumn.Name))
+                if (items.ContainsKey(tableName + cell.OwningColumn.Name))
                 {
-                    if (items[cell.OwningColumn.Name].ContainsKey(cell.Value.ToString()))
+                    if (items[tableName + cell.OwningColumn.Name].ContainsKey(cell.Value.ToString()))
                     {
-                        items[cell.OwningColumn.Name][cell.Value.ToString()] += 1;
+                        items[tableName + cell.OwningColumn.Name][cell.Value.ToString()] += 1;
                     }
                     else
                     {
-                        items[cell.OwningColumn.Name].Add(cell.Value.ToString(), 1);
+                        items[tableName + cell.OwningColumn.Name].Add(cell.Value.ToString(), 1);
                     }
                 }
                 else
                 {
-                    items.Add(cell.OwningColumn.Name, new Dictionary<string, int>());
-                    items[cell.OwningColumn.Name].Add(cell.Value.ToString(), 1);
+                    items.Add(tableName+cell.OwningColumn.Name, new Dictionary<string, int>());
+                    items[tableName + cell.OwningColumn.Name].Add(cell.Value.ToString(), 1);
                 }
 
                 rows.Add(cell.OwningRow.Index);
@@ -88,7 +88,10 @@ namespace SQLVisualBuilder
                             HashSet<string> temp = new HashSet<string>();
                             foreach (int x in set)
                             {
-                                temp.Add(col + "||" + x.ToString());
+                                if(items[col].ContainsKey(x.ToString()))
+                                    temp.Add(col + " |= " + x.ToString());
+                                else
+                                    temp.Add(col + " | " + x.ToString());
                             }
                             candidates.Add(temp);
                         }
@@ -98,7 +101,10 @@ namespace SQLVisualBuilder
                         HashSet<string> temp = new HashSet<string>();
                         foreach (int x in range.Last())
                         {
-                            temp.Add(col + "//" + x.ToString());
+                            if (items[col].ContainsKey(x.ToString()))
+                                temp.Add(col + " /= " + x.ToString());
+                            else
+                                temp.Add(col + " / " + x.ToString());
                         }
                         candidates.Add(temp);
                     }
@@ -110,7 +116,8 @@ namespace SQLVisualBuilder
 
         public List<HashSet<int>> getAssocRange(List<int> values, int totalCount)
         {
-            int binCount = 5;
+            int binCount = (int)Math.Ceiling(2 * Math.Pow((double)values.Count, 1.0 / 3.0)); //Rice Rule
+            Console.WriteLine(binCount+"**");
             int max = values.Max();
             int min = values.Min();
 
@@ -134,17 +141,17 @@ namespace SQLVisualBuilder
             List<HashSet<int>> result = new List<HashSet<int>>(); ;
             for (int j = 0; j < binCount; j++)
             {
-                if (bins[j].Count != 0)
+                if (bins[j].Count > 0)
                 {
                     result.Add(new HashSet<int>());
                     result.Last().Add(min + j * binSize);
 
-                    for (int k = j + 1; k < binCount && bins[k].Count > 0; k++)
+                    while(j < binCount && bins[j].Count > 0)
                     {
                         j++;
                     }
 
-                    result.Last().Add(min + (j + 1) * binSize);
+                    result.Last().Add(Math.Min(min + (j + 1) * binSize, max)); // the max range value shouldn't be greater than the overall max
                 }
             }
             return result;
