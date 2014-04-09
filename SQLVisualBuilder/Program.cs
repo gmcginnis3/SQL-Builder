@@ -51,7 +51,6 @@ namespace SQLVisualBuilder
             {
                 Console.Write(e.Message);
             }
-
             return table;
         }
     }

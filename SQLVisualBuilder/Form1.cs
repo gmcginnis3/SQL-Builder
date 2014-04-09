@@ -6,15 +6,23 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Windows.Forms.Integration;
 using System.Collections;
+using System.IO;
+using System.Windows;
+using System.Windows.Markup;
 
 namespace SQLVisualBuilder
 {
     public partial class Form1 : Form
     {
+        QueryBuilder builder;
+        Dictionary<string, List<string>> primaryKeys = new Dictionary<string,List<string>>();
+
         public Form1()
         {
             InitializeComponent();
+            button2.Enabled = false;
         }
 
         private void tabPage1_Click(object sender, EventArgs e)
@@ -78,7 +86,7 @@ namespace SQLVisualBuilder
                     textBox1.Text = "No valid query!";
                 else
                 {
-                    QueryBuilder builder = new QueryBuilder();
+                    builder = new QueryBuilder();
                     builder.QueryType = QueryTypes.Select;
                     builder.AddTable(page.Text);
                     if (selected.Count > 0)
@@ -137,7 +145,8 @@ namespace SQLVisualBuilder
                     }
 
                     textBox1.Text = builder.ToString();
-                 }
+                    button2.Enabled = true;
+                }
             }
             else //deal with joins
             {
@@ -177,17 +186,22 @@ namespace SQLVisualBuilder
                 //Perform join or show error message
                 if (joinOk == true)
                 {
-                    QueryBuilder builder = new QueryBuilder();
+                    builder = new QueryBuilder();
                     builder.QueryType = QueryTypes.Select;
                     builder.AddTable(pages[0].Text);
                     builder.AddTable(pages[0].Text, both.ToList()[0], pages[1].Text, both.ToList()[0], JoinTypes.Join);
                     if (allColumns[0].Count == (pages[0].Controls.Find("dataGrid", true)[0] as DataGridView).ColumnCount)
+                    {
                         builder.AddColumn("*");
+                    }
                     else
                     {
                         foreach (string col in allColumns[0])
                         {
-                            builder.AddColumn(col);
+                            if ((pages[0].Controls.Find("dataGrid", true)[0] as DataGridView).Columns.Contains(col))
+                                builder.AddColumn(col, pages[0].Text);
+                            else
+                                builder.AddColumn(col, pages[1].Text);
                         }
                     }
 
@@ -228,6 +242,7 @@ namespace SQLVisualBuilder
                     }
 
                     textBox1.Text = builder.ToString();
+                    button2.Enabled = true;
                 }
                 else
                 {
@@ -251,10 +266,15 @@ namespace SQLVisualBuilder
                 dgv.AutoGenerateColumns = true;
                 dgv.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
                 dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-                dgv.DataSource = Program.Query("SELECT * FROM " + table);
+                DataTable t = Program.Query("SELECT * FROM " + table);
+                dgv.DataSource = t;
                 dgv.Parent = tp;
                 dgv.SelectionMode = DataGridViewSelectionMode.RowHeaderSelect;
                 dgv.ClearSelection();
+
+                primaryKeys.Add(table, new List<string>());
+                foreach (DataColumn key in t.PrimaryKey)
+                    primaryKeys[table].Add(key.ColumnName);
             }
 
         }
@@ -271,7 +291,10 @@ namespace SQLVisualBuilder
         }*/
 
         private void button2_Click(object sender, EventArgs e)
-        {          
+        {
+            Form2 form2 = new Form2(builder);
+            form2.Show();
+
         }
     }
 }

@@ -48,12 +48,12 @@ namespace SQLVisualBuilder
     /// <summary>
     /// Class to construct SQL queries
     /// </summary>
-    class QueryBuilder
+    public class QueryBuilder
     {
         /// <summary>
         /// Class to track column information
         /// </summary>
-        private class ColumnInfo
+        public class ColumnInfo
         {
             public string Name { get; set; }
             public string Alias { get; set; }
@@ -74,7 +74,7 @@ namespace SQLVisualBuilder
         /// <summary>
         /// Class to track table information
         /// </summary>
-        private class TableInfo
+        public class TableInfo
         {
             public string Name { get; set; }
             public JoinTypes JoinType { get; set; }
@@ -122,7 +122,7 @@ namespace SQLVisualBuilder
         /// <summary>
         /// Class to track WHERE condition information
         /// </summary>
-        private class ConditionInfo
+        public class ConditionInfo
         {
             public string Text { get; set; }
             public ConditionOperators Operator { get; set; }
@@ -157,7 +157,7 @@ namespace SQLVisualBuilder
         /// <summary>
         /// Class to track sort information
         /// </summary>
-        private class SortInfo
+        public class SortInfo
         {
             public string Name { get; set; }
             public string Table { get; set; }
@@ -254,6 +254,11 @@ namespace SQLVisualBuilder
             _nameValuePairs.Add(new KeyValuePair<string, string>(name, value));
         }
 
+        public List<ColumnInfo> GetColumns()
+        {
+            return new List<ColumnInfo>(_columns);
+        }
+
         /// <summary>
         /// Adds an initial or only table to the query.
         /// </summary>
@@ -283,6 +288,11 @@ namespace SQLVisualBuilder
                     LeftColumn = leftColumn,
                     RightColumn = rightColumn
                 });
+        }
+
+        public List<TableInfo> GetTables()
+        {
+            return new List<TableInfo>(_tables);
         }
 
         /// <summary>

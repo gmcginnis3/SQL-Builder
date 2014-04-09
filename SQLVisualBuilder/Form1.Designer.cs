@@ -38,6 +38,7 @@ namespace SQLVisualBuilder
             this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.button2 = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
@@ -93,6 +94,7 @@ namespace SQLVisualBuilder
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.button2);
             this.splitContainer1.Panel1.Controls.Add(this.textBox1);
             this.splitContainer1.Panel1.Controls.Add(this.button1);
             this.splitContainer1.Panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.splitContainer1_Panel1_Paint);
@@ -105,6 +107,16 @@ namespace SQLVisualBuilder
             this.splitContainer1.SplitterDistance = 260;
             this.splitContainer1.TabIndex = 3;
             // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(0, 23);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(257, 23);
+            this.button2.TabIndex = 2;
+            this.button2.Text = "Vizualize!";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
             // textBox1
             // 
             this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -112,7 +124,7 @@ namespace SQLVisualBuilder
             this.textBox1.Location = new System.Drawing.Point(0, 52);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(257, 278);
+            this.textBox1.Size = new System.Drawing.Size(257, 291);
             this.textBox1.TabIndex = 1;
             // 
             // button1
@@ -160,6 +172,7 @@ namespace SQLVisualBuilder
         private Button button1;
         private ToolStripMenuItem quitToolStripMenuItem;
         private TextBox textBox1;
+        private Button button2;
     }
 }
 
