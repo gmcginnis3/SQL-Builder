@@ -109,7 +109,7 @@ namespace SQLVisualBuilder
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(0, 23);
+            this.button2.Location = new System.Drawing.Point(0, 27);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(257, 23);
             this.button2.TabIndex = 2;

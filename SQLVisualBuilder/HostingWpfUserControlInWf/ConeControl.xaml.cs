@@ -28,10 +28,10 @@ namespace HostingWpfUserControlInWf
             leftTable = new Table();
             leftTable.header = left;
 
-            Binding MyBinding = new Binding();
-            MyBinding.Path = new PropertyPath("header");
-            MyBinding.Source = leftTable;
-            groupBox1.SetBinding(GroupBox.HeaderProperty, MyBinding);
+            //Binding MyBinding = new Binding();
+            //MyBinding.Path = new PropertyPath("header");
+            //MyBinding.Source = leftTable;
+            //groupBox1.SetBinding(GroupBox.HeaderProperty, MyBinding);
             //ListBox l1 = new ListBox();
             //l1.ItemsSource = cols;
             // t1.Content = l1;
